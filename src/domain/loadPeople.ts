@@ -6,7 +6,7 @@ export async function loadPeople() {
     (window.location.hostname === "localhost" ||
       window.location.hostname === "127.0.0.1")
   ) {
-    path = "../../data/local/people.json"
+    path = "../data/local/people.json"
   }
 
   return fetch(path)
