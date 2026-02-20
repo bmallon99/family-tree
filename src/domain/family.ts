@@ -1,4 +1,4 @@
-import { loadPeople } from "../data/loadPeople.js";
+import { loadPeople } from "./loadPeople.js";
 import type { Person } from "../types/person.js";
 
 export type PersonNode = Person & {
