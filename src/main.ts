@@ -1,19 +1,22 @@
-import { loadFamily } from "./domain/family.js";
-import { Person } from "./types/person.js";
+import { loadPeople } from "./infrastructure/loadPeople.js";
+import { buildFamilyGraph } from "./domain/buildFamilyGraph.js";
+import { Person } from "./domain/person.js";
 
 const app = document.getElementById("app");
 
-const renderApp = (family: Record<string, Person>) => {
+const renderApp = (family: Map<string, Person>) => {
   console.log("Loaded people:", family);
 
   if (app) {
     app.innerHTML = "<h1>Family Tree Coming Soon 🌳</h1>";
   }
-}
+};
 
 async function bootstrap() {
-  const people = await loadFamily()
-  renderApp(people)
+  const people = await loadPeople();
+  const family = buildFamilyGraph(people);
+
+  renderApp(family);
 }
 
-bootstrap()
+bootstrap();
