@@ -1,12 +1,18 @@
 import type * as D3 from "d3";
 import { FamilyTree } from "../domain/familyTree.js";
+import { Person } from "../domain/person.js";
 import { buildHierarchyFromRoot, type D3Node } from "./buildHierarchy.js";
 
 declare const d3: typeof D3;
 
+type RenderFamilyTreeOptions = {
+  onSelectionChange?: (selectedPeople: Person[]) => void;
+};
+
 export function renderFamilyTree(
   container: HTMLElement,
   familyTree: FamilyTree,
+  options: RenderFamilyTreeOptions = {},
 ) {
   const roots = familyTree.getRoots();
 
@@ -76,7 +82,18 @@ export function renderFamilyTree(
     const personId = d.data.person.id;
     selectedPersonIds = getNextSelectedPersonIds(selectedPersonIds, personId);
     updateSelectedNodes(nodes, selectedPersonIds);
+    options.onSelectionChange?.(getSelectedPeople(root, selectedPersonIds));
   });
+}
+
+function getSelectedPeople(
+  root: D3.HierarchyNode<D3Node>,
+  selectedPersonIds: string[],
+): Person[] {
+  return root
+    .descendants()
+    .map((node) => node.data.person)
+    .filter((person) => selectedPersonIds.includes(person.id));
 }
 
 function getNextSelectedPersonIds(
