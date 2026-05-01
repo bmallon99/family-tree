@@ -1,6 +1,7 @@
 import { loadPeople } from "./infrastructure/loadPeople.js";
 import { buildFamilyGraph } from "./domain/buildFamilyGraph.js";
-import { renderFamilyTree } from "./view/renderTree.js";
+// import { renderIndentedFamilyTree } from "./view/renderIndentedTree.js";
+import { renderFamilyTree } from "./view/renderFamilyTree.js";
 import { FamilyTree } from "./domain/familyTree.js";
 
 async function bootstrap() {
@@ -13,6 +14,7 @@ async function bootstrap() {
     throw new Error('Missing app container with id "app"');
   }
 
+  // renderIndentedFamilyTree(container, familyTree);
   renderFamilyTree(container, familyTree);
 }
 
