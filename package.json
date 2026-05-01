@@ -3,14 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "tsc",
+    "copy:vendor": "mkdir -p vendor && cp node_modules/d3/dist/d3.min.js vendor/d3.min.js",
+    "build": "npm run copy:vendor && tsc",
     "dev": "concurrently \"tsc --watch\" \"live-server . --watch=dist,index.html --ignore=node_modules\"",
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@types/d3": "^7.4.3",
     "concurrently": "^9.2.1",
     "live-server": "^1.2.2",
     "prettier": "^3.8.1",
     "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "d3": "^7.9.0"
   }
 }

@@ -1,38 +1,41 @@
-import { RawPeople } from "../types/rawPeople";
+import type { RawPeople } from "../types/rawPeople.js";
 
 export async function loadPeople(): Promise<RawPeople> {
-  let path = "data/public/people.json";
+  const paths = isLocalhost()
+    ? ["data/local/people.json", "data/public/people.json"]
+    : ["data/public/people.json"];
 
-  if (
-    typeof window !== "undefined" &&
-    (window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1")
-  ) {
-    path = "data/local/people.json";
-  }
-
-  try {
+  for (const path of paths) {
     const response = await fetch(path);
 
+    if (response.status === 404) {
+      continue;
+    }
+
     if (!response.ok) {
-      console.error(
+      throw new Error(
         `Failed to load people data from ${path}: ${response.statusText}`,
       );
-      return {};
     }
 
     const data = await response.json();
 
     if (!isPeopleData(data)) {
-      console.error(`Invalid people data format in ${path}`);
-      return {};
+      throw new Error(`Invalid people data format in ${path}`);
     }
 
     return data;
-  } catch (error) {
-    console.error(`Error loading people data from ${path}:`, error);
-    return {};
   }
+
+  console.error("No people data file found.");
+  return {};
+}
+
+function isLocalhost(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname)
+  );
 }
 
 function isPeopleData(data: any): data is RawPeople {
