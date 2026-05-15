@@ -1,15 +1,18 @@
 {
   "name": "family-tree",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "copy:vendor": "mkdir -p vendor && cp node_modules/d3/dist/d3.min.js vendor/d3.min.js",
     "build": "npm run copy:vendor && tsc",
     "dev": "npm run copy:vendor && concurrently \"tsc --watch\" \"live-server . --watch=dist,index.html,vendor --ignore=node_modules\"",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "npm run build && node --test \"dist/**/*.test.js\""
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",
+    "@types/node": "^25.8.0",
     "concurrently": "^9.2.1",
     "live-server": "^1.2.2",
     "prettier": "^3.8.1",
