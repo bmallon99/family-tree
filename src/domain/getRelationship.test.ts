@@ -30,3 +30,39 @@ test("requires a unique 2 people", () => {
   const people: Person[] = [person1, person1];
   assert.equal(getRelationship(people), "N/A");
 });
+
+test("can calculate siblings", () => {
+  const jay = new Person("jay", "Jay");
+  const mitchell = new Person("mitchell", "Mitchell");
+  const claire = new Person("claire", "Claire");
+
+  mitchell.addParent(jay);
+  claire.addParent(jay);
+
+  const people = [mitchell, claire];
+  assert.equal(getRelationship(people), "Mitchell is Claire's sibling");
+});
+
+test("can calculate parent", () => {
+  const jay = new Person("jay", "Jay");
+  const mitchell = new Person("mitchell", "Mitchell");
+  const claire = new Person("claire", "Claire");
+
+  mitchell.addParent(jay);
+  claire.addParent(jay);
+
+  const people = [claire, jay];
+  assert.equal(getRelationship(people), "Jay is Claire's parent");
+});
+
+test("can calculate child", () => {
+  const jay = new Person("jay", "Jay");
+  const mitchell = new Person("mitchell", "Mitchell");
+  const claire = new Person("claire", "Claire");
+
+  mitchell.addParent(jay);
+  claire.addParent(jay);
+
+  const people = [jay, claire];
+  assert.equal(getRelationship(people), "Claire is Jay's child");
+});

@@ -3,6 +3,7 @@ import { buildFamilyGraph } from "./domain/buildFamilyGraph.js";
 import { renderFamilyTree } from "./view/renderFamilyTree.js";
 import { FamilyTree } from "./domain/familyTree.js";
 import { Person } from "./domain/person.js";
+import { getRelationship } from "./domain/getRelationship.js";
 
 async function bootstrap() {
   const people = await loadPeople();
@@ -46,7 +47,7 @@ function getRelationshipText(selectedPeople: Person[]): string {
     return "Choose one more person";
   }
 
-  return "[relationship]";
+  return getRelationship(selectedPeople);
 }
 
 bootstrap();
